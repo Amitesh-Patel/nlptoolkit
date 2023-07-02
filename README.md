@@ -157,9 +157,9 @@ This would be the main response and the the main content will be in response jso
 A JSON object containing the corrected text with grammatical errors
 corrected.
 
-# Topic Modeling
+# Text Similarity
 
-Endpoint: '/topic_modeling'
+Endpoint: '/similarity'
 
 Method: 'POST'
 
@@ -168,17 +168,53 @@ Method: 'POST'
 
 | Parameter | Type | Description |
   |-----------|------|-------------|
-  | text      |string | The text to extract topics from |
-   | num_topics     |int | Number of topics to extract |
+  | text-1      |string |First text for comparison |
+   |text-2     |string | Second text for comparison |
    
 ## Response
 
 A JSON object containing the  extracted topics from the text.
 
+# Offensive Detection
+
+Endpoint: '/offensive'
+
+Method: 'POST'
+
+## Request Parameters
+| Parameter | Type | Description |
+|----------|----------|----------|
+| text   | string | The text to be checked for offensive language detection   |
+
+
+## Response
+
+A JSON object containing the offensive words.
+
+# Transliteration
+
+Endpoint: '/transliteration'
+
+Method: 'POST'
+
+## Request Parameters
+| Parameter | Type | Description |
+|----------|----------|----------|
+| text   | string | The text to be translated (it can be in any language)   |
+| targ_lang   | string | The language which the text need to be translated   |
+
+
+## Response
+
+A JSON object containing the translated sentence.
+
+
+
+
 # Error Handling
 
 If an error occurs during the API request, you will receive a JSON
-response with an ]{.c13 .c3}[appropriete]{.c13 .c3}[ error message and
+response with an appropriete error message and
 status code.
 
 # Rate Limiting
@@ -187,7 +223,7 @@ The TextAI API imposes rate limits to ensure fair usage and server
 availability. Please refer to our website for more information on rate
 limits and pricing plans.
 
-## Conclusion
+# Conclusion
 
 The TextAI API provides a comprehensive suite of NLP capabilities for
 your text processing needs. Whether you want to translate text, analyze
