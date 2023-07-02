@@ -335,7 +335,7 @@ A JSON object containing the  extracted topics from the text.
 # Error Handling
 
 If an error occurs during the API request, you will receive a JSON
-response with an ]{.c13 .c3}[appropriete]{.c13 .c3}[ error message and
+response with an error message and
 status code.
 
 # Rate Limiting
