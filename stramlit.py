@@ -64,8 +64,10 @@ with st.sidebar:
                            'Text Summarization',
                            'Translation',
                            'Grammar Check',
-                           'POS'],
-                          icons=['activity','heart','person'],
+                           'POS',
+                           'Text Similarity',
+                           'Offensive Detection',
+                           'Transliteration'],
                           default_index=0)
 
 st.title("NLP ToolKit")
@@ -234,7 +236,7 @@ if (selected == 'Translation'):
         else:
             language = ', '.join(selected_languages)  # Join selected languages into a string
 
-            conversation.add_message("user", f"Translate this sentence to {language} only output the translation, nothing else: {user_input}")
+            conversation.add_message("user", f"Translate this sentence to {language} only output the translation, nothing extra word your sentence is: {user_input}")
             chat_response = chat_completion_request(
                 conversation.conversation_history,
                 # functions = None
@@ -290,7 +292,7 @@ if (selected == 'POS'):
         conversation.add_message("user", f"Please provide the parts of speech tagging for the following sentence. Only output the POS tags like this example Everything is all about money.\
         Output: [('Everything', 'NN'), ('is', 'VBZ'), \
           ('all', 'DT'),('about', 'IN'), \
-          ('money', 'NN'), ('.', '.')] after this also specify what NN means explain for all and your input is this : {user_input}")
+          ('money', 'NN'), ('.', '.')] nothing extra than these and your input is this : {user_input}")
 
         chat_response = chat_completion_request(
             conversation.conversation_history,
@@ -310,3 +312,102 @@ if (selected == 'POS'):
             st.success(pos_tags)
     else:
         st.info("Please enter a sentence for parts of speech tagging.")
+
+if selected == 'Text Similarity':
+    st.header("Text Similarity")
+
+    text1 = st.text_input("Enter Text 1:", key='input1')
+    text2 = st.text_input("Enter Text 2:", key='input2')
+
+    if text1 and text2:
+        conversation = Conversation()
+        conversation.add_message("user", f"Calculate the similarity score should only return numerical value no explanation and used use embedding for the following two texts :\nText 1: {text1}\nText 2: {text2}")
+
+        chat_response = chat_completion_request(
+            conversation.conversation_history,
+            # functions = None
+        )
+
+        output = json.loads(chat_response.text)
+
+        # Display the output
+        if output['choices']:
+            similarity_score = output['choices'][0]['message']['content']
+
+            st.subheader("Text 1:")
+            st.info(text1)
+
+            st.subheader("Text 2:")
+            st.info(text2)
+
+            st.subheader("Similarity Score:")
+            st.success(similarity_score)
+    else:
+        st.info("Please enter both texts")
+
+if selected == 'Offensive Detection':
+    st.header("Offensive Detection")
+
+    user_input = st.text_input("Enter Text:", key='input')
+
+    if user_input:
+        conversation = Conversation()
+        conversation.add_message("user", f"Determine the category of offense in the given sentence. Choose from the following 5 categories and return only one category as output basically one word only:\n{user_input}")
+
+        chat_response = chat_completion_request(
+            conversation.conversation_history,
+            # functions = None
+        )
+
+        output = json.loads(chat_response.text)
+
+        # Display the output
+        if output['choices']:
+            offense_category = output['choices'][0]['message']['content']
+
+            st.subheader("Original Sentence:")
+            st.info(user_input)
+
+            st.subheader("Offense Category:")
+            st.success(offense_category)
+    else:
+        st.info("Please enter a text for offensive detection.")
+
+if selected == 'Transliteration':
+    st.header("Transliteration")
+    
+    user_input = st.text_input("Enter Text:", key='input')
+    
+    if user_input:
+        conversation = Conversation()
+        languages = [
+            "English", "Spanish", "French", "German", "Italian", "Russian", "Chinese","Hindi","Sanskrit","Bengali"
+            # Add more languages here...
+        ]
+        
+        selected_languages = st.multiselect("Select Languages", languages)
+
+        if not selected_languages:
+            st.warning("Please select at least one language.")
+        else:
+            language = ', '.join(selected_languages)
+            
+            conversation.add_message("user", f"Transliterate this sentence to {language}. Only output the transliteration, nothing else: {user_input}")
+
+            chat_response = chat_completion_request(
+                conversation.conversation_history,
+                # functions = None
+            )
+
+            output = json.loads(chat_response.text)
+
+            if output['choices']:
+                transliteration = output['choices'][0]['message']['content']
+                
+                st.subheader("Original Sentence:")
+                st.info(user_input)
+                
+                st.subheader("Transliteration:")
+                st.success(transliteration)
+    else:
+        st.warning("Please enter a sentence to transliterate.")
