@@ -23,7 +23,7 @@ To get started with the TextAI API, follow the steps below:
 
 # Translate
 
-Endpoint: '/translate'
+Endpoint: '/translation'
 
 Method: 'POST'
 
@@ -74,7 +74,7 @@ sentiment score and sentiment label.
 
 # Question Answering
 
-Endpoint: '/qna'
+Endpoint: '/question-answer'
 
 Method: 'POST'
 
@@ -93,7 +93,7 @@ provided text.
 
 # Text Summarization
 
-[Endpoint: '/summarize'
+[Endpoint: '/summary'
 
 Method: 'POST'
 
@@ -107,18 +107,17 @@ Method: 'POST'
 
 A JSON object containing the summary of the text.
 
-# Semantic Textual Similarity
-Endpoint: '/similarity'
+# Named Entity Recognition
+Endpoint: '/named-entity'
 Method: 'POST'
 
 ## Request Parameters
  | Parameter | Type | Description |
   |-----------|------|-------------|
-  | text-1      |string | First text for comparison |
-   | text-2      |string | Second text for comparison |
+  | text-1      |string | text for applying NER |
   
 ## Response
-A JSON object containing the similarity score of the two texts.
+A JSON object containing the named entity in the text.
 
 # Grammatical Error Correction
 
