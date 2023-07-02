@@ -5,11 +5,11 @@ from tenacity import retry, wait_random_exponential, stop_after_attempt
 from termcolor import colored
 import json
 import requests
-import config
+import confi
 from streamlit_option_menu import option_menu
 
 GPT_MODEL = "gpt-3.5-turbo-0613"
-openai.api_key = config.KEY
+openai.api_key = confi.KEY
 @retry(wait=wait_random_exponential(min=1, max=40), stop=stop_after_attempt(3))
 def chat_completion_request(messages, functions=None, model=GPT_MODEL):
     headers = {
